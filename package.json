@@ -1,0 +1,12 @@
+{
+  "name": "tanta-back-end",
+  "version": "1.0.0",
+  "description": "full stack project tanta",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Yoel Zerbib, Naum Asafov, Letzy Benavente, Joey Spijer",
+  "license": "ISC"
+}
