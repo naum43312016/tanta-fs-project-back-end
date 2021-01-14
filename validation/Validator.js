@@ -78,6 +78,17 @@ exports.validateSignUp = (user) => {
             errorOccurred = true;
         }
     }
+    if(!user.address){
+        errorObject.address = "Required field";
+        errorObject.error = true;
+        errorOccurred = true;
+    }else{
+        if(user.address.length>234){
+            errorObject.address = "Maximum length exceeded";
+            errorObject.error = true;
+            errorOccurred = true;
+        }
+    }
     //Return true if form is valid, else return error object.
     return errorOccurred ? errorObject : true;
 }

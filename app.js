@@ -13,6 +13,5 @@ app.use(express.json());
 
 app.post('/signup',AuthController.signUp);
 app.post('/login',AuthController.login);
-app.get('/test',AuthController.test);
 
 module.exports = app;
