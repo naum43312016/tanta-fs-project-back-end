@@ -27,7 +27,7 @@ exports.signUp = async (req,res) => {
             }
         }
     }else{
-        //If not valid, send error to client
+        //If not valid, send error object to client
         res.json(validationResult);
     }
 }
@@ -55,7 +55,7 @@ exports.login = async (req,res) => {
             res.json({error: true, message: 'Email or Password are incorrect!'})
         }
     }else{
-        //If not valid, send error to client
+        //If not valid, send error object to client
         res.json(validationResult);
     }
 }
