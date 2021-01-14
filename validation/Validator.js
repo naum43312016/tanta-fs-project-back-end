@@ -78,6 +78,16 @@ exports.validateSignUp = (user) => {
             errorOccurred = true;
         }
     }
+    if(!user.confirmPassword){
+        errorObject.confirmPassword = "Required field";
+        errorObject.error = true;
+        errorOccurred = true;
+    }
+    if(user.confirmPassword!==user.password){
+        errorObject.message = "The password confirmation does not match";
+        errorObject.error = true;
+        errorOccurred = true;
+    }
     if(!user.address){
         errorObject.address = "Required field";
         errorObject.error = true;
