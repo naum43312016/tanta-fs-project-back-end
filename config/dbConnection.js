@@ -1,13 +1,14 @@
 const { MongoClient } = require("mongodb")
 
-const url = "mongodb+srv://tanta-admin:admin@cluster0.om7py.mongodb.net/<dbname>?retryWrites=true&w=majority"
+const url = process.env.DATABASE_URL
 const client = new MongoClient(url, { useUnifiedTopology: true,useNewUrlParser: true})
 const dbName = "Tanta"
+let _db;
 
 async function connectToDbServer() { 
     try {
         await client.connect()
-        client.db = dbName
+        _db = client.db(dbName)
         console.log('Connected to Database')
 
     } catch (err) { 
@@ -17,7 +18,7 @@ async function connectToDbServer() {
 }
 
 function getDb() { 
-    return dbName
+    return _db
 }
 
 module.exports = {connectToDbServer, getDb}
