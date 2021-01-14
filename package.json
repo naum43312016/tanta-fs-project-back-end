@@ -18,5 +18,13 @@
     "express-form-data": "^2.0.14",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/naum43312016/tanta-fs-project-back-end.git"
+  },
+  "bugs": {
+    "url": "https://github.com/naum43312016/tanta-fs-project-back-end/issues"
+  },
+  "homepage": "https://github.com/naum43312016/tanta-fs-project-back-end#readme"
 }
