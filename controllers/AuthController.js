@@ -10,7 +10,7 @@ exports.signUp = async (req,res) => {
         const userFromDb = await User.getUserByEmail(user.email);
         if(userFromDb){
             //User exists
-            res.json({error: true, message: 'User with this email already exists'})
+            res.status(409).json({error: true, message: 'User with this email already exists'})
         }else{
             const insertedUser = await UserModel.addUserToDb(user);
             if(insertedUser){
@@ -28,7 +28,7 @@ exports.signUp = async (req,res) => {
         }
     }else{
         //If not valid, send error object to client
-        res.json(validationResult);
+        res.status(409).json(validationResult);
     }
 }
 
@@ -48,14 +48,14 @@ exports.login = async (req,res) => {
                 res.json({user: userFromDb,token: token});
             }else{
                 //Password incorrect
-                res.json({error: true, message: 'Email or Password are incorrect!'})
+                res.status(409).json({error: true, message: 'Email or Password are incorrect!'})
             }
         }else{
             //Email doesn't exist in db
-            res.json({error: true, message: 'Email or Password are incorrect!'})
+            res.status(409).json({error: true, message: 'Email or Password are incorrect!'})
         }
     }else{
         //If not valid, send error object to client
-        res.json(validationResult);
+        res.status(409).json(validationResult);
     }
 }
