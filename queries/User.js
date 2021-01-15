@@ -1,10 +1,6 @@
 const {getDb} = require('../config/dbConnection');
 const ObjectID = require('mongodb').ObjectID;
 
-exports.getUserById = async (id) => {
-
-}
-
 exports.addUser = async (user) => {
     const _db = getDb();
     try{
