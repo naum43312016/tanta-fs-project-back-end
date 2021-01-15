@@ -36,6 +36,6 @@ const createUserObjectToInsert = (user) => {
         phone: user.phone,
         userName: user.userName,
         address: user.address,
-        coins: 10
+        coins: 5
     }
 }

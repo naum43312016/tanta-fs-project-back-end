@@ -135,3 +135,13 @@ exports.validateLogin = (user) => {
     //Return true if form is valid, else return error object.
     return errorOccurred ? errorObject : true;
 }
+
+//Escape special chars
+exports.escapeCharsForSignUpForm = (user) => {
+    user.email = validator.escape(user.email);
+    user.firstName = validator.escape(user.firstName);
+    user.lastName = validator.escape(user.lastName);
+    user.phone = validator.escape(user.phone);
+    user.address = validator.escape(user.address);
+    user.userName = validator.escape(user.userName);
+}
