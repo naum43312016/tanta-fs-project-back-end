@@ -12,6 +12,7 @@ exports.signUp = async (req,res) => {
             //User exists
             res.status(409).json({error: true, message: 'User with this email already exists'})
         }else{
+            Validation.escapeCharsForSignUpForm(user);
             const insertedUser = await UserModel.addUserToDb(user);
             if(insertedUser){
                 //Create jwt
