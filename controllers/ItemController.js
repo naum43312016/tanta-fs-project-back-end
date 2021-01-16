@@ -46,3 +46,12 @@ exports.createItem = async (req,res) => {
         res.status(409).json({error: true,message: "Image not uploaded"})
     }
 }
+
+exports.getAllItems = async (req,res) => {
+    const allItems = await ItemModel.getAllItems();
+    if(allItems){
+        res.json(allItems);
+    }else{
+        res.status(500).send("Server error");
+    }
+}

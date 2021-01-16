@@ -28,7 +28,7 @@ app.get("/category/:id",CategoryController.getCategoryById);
 
 //Item endpoints
 app.post("/item",ItemController.createItem);
-
+app.get("/home/get-all-items",ItemController.getAllItems);
 
 
 module.exports = app;
