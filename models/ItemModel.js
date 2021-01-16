@@ -1,6 +1,7 @@
 const Item = require('../queries/Item');
 
 exports.createItem = async (item,userId) => {
+    cropImageUrl(item);
     const itemToInsert = getItemToInsert(item);
     const insertionResult = await Item.add(itemToInsert);
     if(insertionResult){
@@ -52,6 +53,15 @@ addCreatedItemToUser = async (item,userId) => {
     }else{
         return false;
     }
+}
+
+const cropImageUrl = (item) => {
+    let imageUrl = item.imageUrl;
+    let startIndex = imageUrl.indexOf("upload");
+    if(startIndex<0) return;
+    let croppedImageUrl = imageUrl.slice(0,startIndex+7) + "c_crop,h_455,w_729/" + imageUrl.slice(startIndex+7);
+    if(!croppedImageUrl) return;
+    item.imageUrl = croppedImageUrl;
 }
 
 const getItemToInsert = (item) => {
