@@ -20,9 +20,9 @@ exports.getAllItems = async () => {
     return allItems;
 }
 
-exports.searchItems = async (query) => {
+exports.searchItems = async (query,page) => {
     const searchQuery = createQueryForSearch(query);
-    const itemsResult = await Item.getItemsByQuery(searchQuery);
+    const itemsResult = await Item.getItemsByQuery(searchQuery,page);
     return itemsResult;
 }
 

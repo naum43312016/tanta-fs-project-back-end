@@ -1,6 +1,7 @@
 const {getDb} = require('../config/dbConnection');
 const ObjectID = require('mongodb').ObjectID;
 const User = require('./User');
+const ITEMS_PER_PAGE = 12;
 
 exports.add = async (item) => {
     const _db = getDb();
@@ -44,13 +45,15 @@ exports.getAllItems = async () => {
     }
 }
 
-exports.getItemsByQuery = async (query) => {
-    //TO-DO add pagination
+exports.getItemsByQuery = async (query,page) => {
     const _db = getDb();
     try{
+        page = page-1;
         const collection = _db.collection('items');
-        const result = await collection.find(query).toArray();
-        return result;
+        const itemsCount = await collection.find(query).count();
+        const items = await collection.find(query).skip(page*ITEMS_PER_PAGE).limit(ITEMS_PER_PAGE).toArray();
+        const pagesCount = Math.ceil(itemsCount/ITEMS_PER_PAGE);
+        return {pagesCount,items};
     }catch{
         return null;
     }
