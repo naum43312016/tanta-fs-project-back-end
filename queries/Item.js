@@ -43,3 +43,15 @@ exports.getAllItems = async () => {
         return null;
     }
 }
+
+exports.getItemsByQuery = async (query) => {
+    //TO-DO add pagination
+    const _db = getDb();
+    try{
+        const collection = _db.collection('items');
+        const result = await collection.find(query).toArray();
+        return result;
+    }catch{
+        return null;
+    }
+}
