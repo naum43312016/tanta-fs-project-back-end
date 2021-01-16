@@ -20,13 +20,15 @@ app.post('/signup',AuthController.signUp);
 app.post('/login',AuthController.login);
 
 
-//Item endpoints
-app.post("/item",ItemController.createItem);
-
 //Category endpoints
 app.post("/category",CategoryController.createCategory);
 app.get("/category/all",CategoryController.getAllCategories);
 app.get("/category",CategoryController.getCategoryByName);
 app.get("/category/:id",CategoryController.getCategoryById);
+
+//Item endpoints
+app.post("/item",ItemController.createItem);
+
+
 
 module.exports = app;

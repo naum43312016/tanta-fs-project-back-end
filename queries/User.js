@@ -44,3 +44,14 @@ exports.getUserByEmail = async (email) => {
         return null;
     }
 }
+
+exports.updateUserItems = async (userId,userItems) => {
+    const _db = getDb();
+    try{
+        const collection = _db.collection('users');
+        const user = await collection.updateOne({"_id": ObjectID(userId)},{$set : {items : userItems}});
+        return user;
+    }catch{
+        return null;
+    }
+}
