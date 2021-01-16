@@ -20,6 +20,30 @@ exports.getAllItems = async () => {
     return allItems;
 }
 
+exports.searchItems = async (query) => {
+    const searchQuery = createQueryForSearch(query);
+    const itemsResult = await Item.getItemsByQuery(searchQuery);
+    return itemsResult;
+}
+
+const createQueryForSearch = (searchQuery) => {
+    if(!searchQuery) return {};
+    const query = {};
+    query.category = new RegExp(searchQuery.category, 'i');
+    query.name = new RegExp(searchQuery.name, 'i');
+    query.price = getPriceQuery(searchQuery.price);
+    return query;
+}
+
+const getPriceQuery = (price) => {
+    if(!price) return {$gte :  0, $lte : 1000} //Get all
+    let priceArr = price.split("-");
+    if(priceArr.length<2) return {$gte :  0, $lte : 1000} //Get all
+    let min = parseInt(priceArr[0],10)
+    let max = parseInt(priceArr[1],10)
+    return {$gte :  min, $lte : max};
+}
+
 addCreatedItemToUser = async (item,userId) => {
     if(!userId || !item) return null;
     const result = await Item.addItemToUser(item,userId);

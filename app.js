@@ -7,6 +7,8 @@ const bodyParser = require('body-parser')
 const AuthController = require('./controllers/AuthController');
 const ItemController = require('./controllers/ItemController');
 const CategoryController = require('./controllers/CategoryController');
+const SearchController = require('./controllers/SearchController');
+
 //User file upload to upload images
 app.use(fileUpload({
     createParentPath: true
@@ -30,5 +32,7 @@ app.get("/category/:id",CategoryController.getCategoryById);
 app.post("/item",ItemController.createItem);
 app.get("/home/get-all-items",ItemController.getAllItems);
 
+//Search endpoints
+app.get('/search/item',SearchController.searchItems);
 
 module.exports = app;
