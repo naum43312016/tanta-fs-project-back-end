@@ -15,6 +15,11 @@ exports.createItem = async (item,userId) => {
     }
 }
 
+exports.getAllItems = async () => {
+    const allItems = await Item.getAllItems();
+    return allItems;
+}
+
 addCreatedItemToUser = async (item,userId) => {
     if(!userId || !item) return null;
     const result = await Item.addItemToUser(item,userId);

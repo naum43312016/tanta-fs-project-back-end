@@ -32,3 +32,14 @@ exports.addItemToUser = async (item,userId) => {
         return null;
     }
 }
+
+exports.getAllItems = async () => {
+    const _db = getDb();
+    try{
+        const collection = _db.collection('items');
+        const result = await collection.find({}).toArray();
+        return result;
+    }catch{
+        return null;
+    }
+}
