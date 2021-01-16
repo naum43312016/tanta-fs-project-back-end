@@ -7,6 +7,9 @@ exports.createCategory = async (req,res) => {
     const validationResult = CategoryValidation.validateCategoryCreation(category);
     if(validationResult===true){
         CategoryValidation.escapeCharsForCategory(category);
+        if(CategoryModel.getCategoryByName(category.name)){
+            return res.status(409).json("Category exists");
+        }
         const insertionResult = await CategoryModel.createCategory(category);
         if(insertionResult){
             res.send("Category successfully created");
