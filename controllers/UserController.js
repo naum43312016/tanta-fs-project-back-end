@@ -14,6 +14,7 @@ exports.getUserById = async (req, res) => {
     if (_id) {
         const user = await UserModel.getUserById(_id);
         if (user) {
+            delete user.password;
             res.json(user)
 
         } else { 
