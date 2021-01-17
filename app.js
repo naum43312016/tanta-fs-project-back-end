@@ -8,6 +8,8 @@ const AuthController = require('./controllers/AuthController');
 const ItemController = require('./controllers/ItemController');
 const CategoryController = require('./controllers/CategoryController');
 const SearchController = require('./controllers/SearchController');
+const UserController = require('./controllers/UserController');
+
 
 //User file upload to upload images
 app.use(fileUpload({
@@ -21,7 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.post('/signup',AuthController.signUp);
 app.post('/login',AuthController.login);
 
-
 //Category endpoints
 app.post("/category",CategoryController.createCategory);
 app.get("/category/all",CategoryController.getAllCategories);
@@ -29,8 +30,13 @@ app.get("/category",CategoryController.getCategoryByName);
 app.get("/category/:id",CategoryController.getCategoryById);
 
 //Item endpoints
-app.post("/item",ItemController.createItem);
-app.get("/home/get-all-items",ItemController.getAllItems);
+app.post("/item", ItemController.createItem);
+app.get('/item/:id', ItemController.getItemById);
+app.get("/home/get-all-items", ItemController.getAllItems);
+
+//User endpoints
+app.get("/user/all", UserController.getAllUsers)
+app.get("/user/:id", UserController.getUserById)
 
 //Search endpoints
 app.get('/search/item',SearchController.searchItems);

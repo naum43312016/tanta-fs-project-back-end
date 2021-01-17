@@ -21,6 +21,11 @@ exports.getAllItems = async () => {
     return allItems;
 }
 
+exports.getItemById = async (_id) => {
+    const item = await Item.getItemById(_id);
+    return item;
+}
+
 exports.searchItems = async (query,page) => {
     const searchQuery = createQueryForSearch(query);
     const itemsResult = await Item.getItemsByQuery(searchQuery,page);

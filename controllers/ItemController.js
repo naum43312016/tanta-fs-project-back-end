@@ -47,6 +47,21 @@ exports.createItem = async (req,res) => {
     }
 }
 
+exports.getItemById = async (req, res) => { 
+    const _id = req.params.id;
+    if (_id) { 
+        const item = await ItemModel.getItemById(_id)
+        if (item) {
+            res.json(item)
+        } else { 
+            res.status(404).send("Item not found")
+        }
+
+    } else { 
+        res.status(404).send("Not found")
+    }
+}
+
 exports.getAllItems = async (req,res) => {
     const allItems = await ItemModel.getAllItems();
     if(allItems){

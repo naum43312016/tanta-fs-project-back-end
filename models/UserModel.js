@@ -34,10 +34,23 @@ const createUserObjectToInsert = (user) => {
         firstName: user.firstName,
         lastName: user.lastName,
         phone: user.phone,
+        role: 'user',
         userName: user.userName,
         address: user.address,
         coins: 5,
         items: [],
-        purchasedItems: []
+        purchasedItems: [],
+        favoriteItems: []
     }
 }
+
+exports.getAllUsers = async () => { 
+    const allUsers = await User.getAllUsers();
+    return allUsers;
+}
+
+exports.getUserById = async (_id) => { 
+    const user = await User.getUserById(_id);
+    return user;
+}
+

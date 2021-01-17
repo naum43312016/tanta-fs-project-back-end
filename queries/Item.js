@@ -45,6 +45,19 @@ exports.getAllItems = async () => {
     }
 }
 
+exports.getItemById = async (_id) => { 
+    const _db = getDb();
+    try {
+        const collection = _db.collection('items');
+        const item = await collection.findOne({'_id': ObjectID(_id) });
+        return item;
+        
+    } catch {
+        return null;
+    }
+   
+}
+
 exports.getItemsByQuery = async (query,page) => {
     const _db = getDb();
     try{
