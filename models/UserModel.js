@@ -41,3 +41,8 @@ const createUserObjectToInsert = (user) => {
         purchasedItems: []
     }
 }
+
+exports.getAllUsers = async () => { 
+    const allUsers = await User.getAllUsers();
+    return allUsers;
+}
