@@ -34,11 +34,13 @@ const createUserObjectToInsert = (user) => {
         firstName: user.firstName,
         lastName: user.lastName,
         phone: user.phone,
+        role: 'user',
         userName: user.userName,
         address: user.address,
         coins: 5,
         items: [],
-        purchasedItems: []
+        purchasedItems: [],
+        favoriteItems: []
     }
 }
 
