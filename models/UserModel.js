@@ -48,3 +48,9 @@ exports.getAllUsers = async () => {
     const allUsers = await User.getAllUsers();
     return allUsers;
 }
+
+exports.getUserById = async (_id) => { 
+    const user = await User.getUserById(_id);
+    return user;
+}
+

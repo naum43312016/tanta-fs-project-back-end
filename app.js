@@ -34,7 +34,8 @@ app.post("/item",ItemController.createItem);
 app.get("/home/get-all-items", ItemController.getAllItems);
 
 //User endpoints
-app.get("/users", UserController.getAllUsers)
+app.get("/user/all", UserController.getAllUsers)
+app.get("/user/:id", UserController.getUserById)
 
 //Search endpoints
 app.get('/search/item',SearchController.searchItems);
