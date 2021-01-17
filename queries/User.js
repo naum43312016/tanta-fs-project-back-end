@@ -16,7 +16,7 @@ exports.getAllUsers = async () => {
     const _db = getDb();
     try{
         const collection = _db.collection('users');
-        const result = await collection.find({}).toArray();
+        const result = await collection.find({}, { projection: {password: 0}}).toArray();
         return result;
     }catch{
         return null;
