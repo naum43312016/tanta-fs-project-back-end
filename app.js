@@ -9,7 +9,7 @@ const ItemController = require('./controllers/ItemController');
 const CategoryController = require('./controllers/CategoryController');
 const SearchController = require('./controllers/SearchController');
 const UserController = require('./controllers/UserController');
-
+const AdminController = require('./controllers/AdminController');
 
 //User file upload to upload images
 app.use(fileUpload({
@@ -41,5 +41,8 @@ app.get("/user/:id", UserController.getUserById)
 
 //Search endpoints
 app.get('/search/item',SearchController.searchItems);
+
+//Admin endpoints
+app.get('/admin/users',AdminController.getAllUsers);
 
 module.exports = app;
