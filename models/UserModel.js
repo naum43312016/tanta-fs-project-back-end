@@ -1,6 +1,7 @@
 const User = require('../queries/User');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const Utils = require('../helpers/Utils');
 
 exports.addUserToDb = async (user) => {
     const passwordHash = getPasswordHash(user.password);
@@ -47,6 +48,12 @@ const createUserObjectToInsert = (user) => {
 exports.getAllUsers = async () => { 
     const allUsers = await User.getAllUsers();
     return allUsers;
+}
+
+exports.getAllUsersForCurrentPage = async (currPage) => {
+    currPage = Utils.getPageFromQueryString(currPage);
+    const users = await User.getAllUsersForPage(currPage);
+    return users;
 }
 
 exports.getUserById = async (_id) => { 
