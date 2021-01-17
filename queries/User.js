@@ -62,7 +62,7 @@ exports.updateUserFavoriteItems = async (userId, userFavoriteItems) => {
         const collection = _db.collection('users');
         const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $set: { favoriteItems: userFavoriteItems } });
         return user;
-        
+
     } catch (error) {
         return null;
     }

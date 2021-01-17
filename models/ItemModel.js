@@ -32,6 +32,12 @@ exports.searchItems = async (query,page) => {
     return itemsResult;
 }
 
+exports.addFavoriteItemToUser = async (itemId, userId) => {
+    if (!userId || !itemId) return null;
+    const result = await Item.addFavoriteItemToUser(itemId, userId);
+    return result;
+}
+
 const createQueryForSearch = (searchQuery) => {
     if(!searchQuery) return {};
     const query = {};
@@ -79,3 +85,4 @@ const getItemToInsert = (item) => {
         condition: item.condition
     }
 }
+

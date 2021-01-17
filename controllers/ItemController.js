@@ -70,3 +70,31 @@ exports.getAllItems = async (req,res) => {
         res.status(500).send("Server error");
     }
 }
+
+exports.addFavoriteItemToUser = async (req, res) => { 
+    const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
+    if(!userIdFromToken){
+        return res.status(401).json({error: true,message: "Please login"});
+    }
+    const _id = req.params.id
+
+    if (_id) {
+        const item = await ItemModel.getItemById(_id);
+        if (item) { 
+            const result = await ItemModel.addFavoriteItemToUser(_id, userIdFromToken);
+            if (result) {
+                res.send('Item added to favorite list');
+            }
+            else { 
+                res.send('Error while adding item to favorites')
+            }
+        }
+        else { 
+            res.status(404).send('Item not found')
+
+        }
+    } else { 
+        res.status(404).send("Not found")
+
+    }
+}

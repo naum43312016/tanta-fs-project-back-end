@@ -71,3 +71,27 @@ exports.getItemsByQuery = async (query,page) => {
         return null;
     }
 }
+
+exports.addFavoriteItemToUser = async (itemId, userId) => {
+    const user = await User.getUserById(userId);
+    if(user){
+        const userFavoriteItems = user.favoriteItems;
+        const stringUserFavoriteItems = userFavoriteItems.map(item => item.toString());
+        const isRepeatedItem = stringUserFavoriteItems.find(item => item === itemId);
+        if (!isRepeatedItem) {
+            userFavoriteItems.push(ObjectID(itemId))
+            const result = await User.updateUserFavoriteItems(userId, userFavoriteItems);
+            if (result) {
+                return true;
+            } else {
+                return null;
+            }
+        }
+        else { 
+            return null;
+        }
+        
+    }else{
+        return null;
+    }
+}
