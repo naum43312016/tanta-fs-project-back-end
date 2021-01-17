@@ -16,12 +16,10 @@ exports.getUserById = async (req, res) => {
         if (user) {
             delete user.password;
             res.json(user)
-
         } else { 
             res.status(404).send('User not found')
-
         }
     } else { 
-        res.status(404).send('User not found')
+        res.status(404).send('Not found')
     }
 }

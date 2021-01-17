@@ -30,7 +30,8 @@ app.get("/category",CategoryController.getCategoryByName);
 app.get("/category/:id",CategoryController.getCategoryById);
 
 //Item endpoints
-app.post("/item",ItemController.createItem);
+app.post("/item", ItemController.createItem);
+app.get('/item/:id', ItemController.getItemById);
 app.get("/home/get-all-items", ItemController.getAllItems);
 
 //User endpoints
