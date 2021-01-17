@@ -82,7 +82,8 @@ const getItemToInsert = (item) => {
         price: item.price,
         name: item.name,
         description: item.description,
-        condition: item.condition
+        condition: item.condition,
+        status: 'available'
     }
 }
 
