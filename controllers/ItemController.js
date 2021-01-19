@@ -3,7 +3,8 @@ const ImageValidator = require('../validation/ImageValidator');
 const ItemValidation = require('../validation/ItemValidation');
 const ItemModel = require('../models/ItemModel');
 const TokenHelper = require('../helpers/TokenHelper');
-
+const User = require('../queries/User');
+const Utils = require('../helpers/Utils');
 
 exports.createItem = async (req,res) => {
     const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
@@ -131,25 +132,47 @@ exports.addPurchasedItemToUser = async (req, res) => {
     if(!userIdFromToken){
         return res.status(401).json({error: true,message: "Please login"});
     }
-    const itemId = req.params.id
+    const itemId = req.params.id;
     if (itemId) {
         const item = await ItemModel.getItemById(itemId);
         if (item) { 
-            console.log(item);
             const result = await ItemModel.addPurchasedItemToUser(itemId, userIdFromToken);
             if (result) {
                 res.send('Bought Item Successfully');
             }
             else { 
-                res.send('Error while buying item')
+                res.send('Error while buying item');
             }
         }
         else { 
-            res.status(404).send('Item not found')
-
+            res.status(404).send('Item not found');
         }   
     } else { 
-        res.status(404).send("Not found")
-
+        res.status(404).send("Not found");
     }
+}
+
+exports.deleteItem = async (req,res) => {
+    const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
+    if(!userIdFromToken){
+        return res.status(401).json({error: true,message: "Please login"});
+    }
+    const itemId = req.params.id;
+    const item = await ItemModel.getItemById(itemId);
+    if(itemId && item){
+        const user = await User.getUserById(userIdFromToken);
+        if(user && Utils.checkIfUserHaveItem(user,itemId)){
+            const removingResult = await ItemModel.removeItem(user,item);
+            if(removingResult){
+                res.send("Item successfully removed");
+            }else{
+                res.status(500).send("Server error");
+            }
+        }else{
+            res.status(401).send("No access");
+        }
+    }else{
+        res.status(404).send("Not found");
+    }
+
 }

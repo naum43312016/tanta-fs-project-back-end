@@ -36,6 +36,7 @@ app.post('/item/:id/favorite', ItemController.addFavoriteItemToUser);
 app.delete('/item/:id/favorite', ItemController.deleteFavoriteItemFromUser);
 app.get('/item/:id', ItemController.getItemById);
 app.get("/home/get-all-items", ItemController.getAllItems);
+app.delete('/item/:id',ItemController.deleteItem);
 
 //User endpoints
 app.get("/user/all", UserController.getAllUsers);
