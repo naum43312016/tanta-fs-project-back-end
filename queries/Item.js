@@ -101,8 +101,8 @@ exports.removeFavoriteItemFromUser = async (itemId, userId) => {
         const userFavoriteItems = user.favoriteItems;
         const userFavoriteItemsToString = userFavoriteItems.map(item => item.toString());
         const indexOfItemToRemove = userFavoriteItemsToString.indexOf(itemId);
-        if (indexOfItemToRemove) {
-            userFavoriteItemsToString.splice(indexOfItemToRemove, 1);
+        if (indexOfItemToRemove>-1) {
+            userFavoriteItemsToString.splice(indexOfItemToRemove);
             const updatedUserFavoriteItemsToObjectId = userFavoriteItemsToString.map(item => ObjectID(item));
             const result = await User.updateUserFavoriteItems(userId, updatedUserFavoriteItemsToObjectId);
              if (result) {
