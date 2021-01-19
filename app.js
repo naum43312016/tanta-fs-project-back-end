@@ -15,9 +15,9 @@ const AdminController = require('./controllers/AdminController');
 app.use(fileUpload({
     createParentPath: true
 }));
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //Auth endpoints
 app.post('/signup',AuthController.signUp);
@@ -31,13 +31,15 @@ app.get("/category/:id",CategoryController.getCategoryById);
 
 //Item endpoints
 app.post("/item", ItemController.createItem);
+app.post('/item/:id/purchase', ItemController.addPurchasedItemToUser);
 app.post('/item/:id/favorite', ItemController.addFavoriteItemToUser);
+app.delete('/item/:id/favorite', ItemController.deleteFavoriteItemFromUser);
 app.get('/item/:id', ItemController.getItemById);
 app.get("/home/get-all-items", ItemController.getAllItems);
 
 //User endpoints
-app.get("/user/all", UserController.getAllUsers)
-app.get("/user/:id", UserController.getUserById)
+app.get("/user/all", UserController.getAllUsers);
+app.get("/user/:id", UserController.getUserById);
 
 //Search endpoints
 app.get('/search/item',SearchController.searchItems);

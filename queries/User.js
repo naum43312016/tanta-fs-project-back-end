@@ -72,6 +72,7 @@ exports.updateUserItems = async (userId,userItems) => {
 
 exports.updateUserFavoriteItems = async (userId, userFavoriteItems) => { 
     const _db = getDb();
+    console.log(userFavoriteItems)
     try {
         const collection = _db.collection('users');
         const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $set: { favoriteItems: userFavoriteItems } });
@@ -80,4 +81,19 @@ exports.updateUserFavoriteItems = async (userId, userFavoriteItems) => {
     } catch (error) {
         return null;
     }
+}
+//WIP
+exports.updateUserPurchasedItems = async (userId, userPurchasedItems) => {
+    const _db = getDb();
+    try {
+        const collection = _db.collection('users');
+        const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $set: { purchasedItem: userPurchasedItems } });
+        return user;
+        
+    } catch (error) {
+        return null;
+        
+    }
+    
+
 }

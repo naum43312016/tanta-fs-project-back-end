@@ -76,12 +76,11 @@ exports.addFavoriteItemToUser = async (req, res) => {
     if(!userIdFromToken){
         return res.status(401).json({error: true,message: "Please login"});
     }
-    const _id = req.params.id
-
-    if (_id) {
-        const item = await ItemModel.getItemById(_id);
+    const itemId = req.params.id
+    if (itemId) {
+        const item = await ItemModel.getItemById(itemId);
         if (item) { 
-            const result = await ItemModel.addFavoriteItemToUser(_id, userIdFromToken);
+            const result = await ItemModel.addFavoriteItemToUser(itemId, userIdFromToken);
             if (result) {
                 res.send('Item added to favorite list');
             }
@@ -93,6 +92,62 @@ exports.addFavoriteItemToUser = async (req, res) => {
             res.status(404).send('Item not found')
 
         }
+    } else { 
+        res.status(404).send("Not found")
+
+    }
+}
+
+exports.deleteFavoriteItemFromUser = async(req, res) => { 
+    const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
+    if (!userIdFromToken) { 
+        return res.status(401).json({ error: true, message: "Please login" });
+    }
+    const itemId = req.params.id
+    if (itemId) {
+        const item = await ItemModel.getItemById(itemId);
+        if (item) { 
+            const result = await ItemModel.removeFavoriteItemFromUser(itemId, userIdFromToken);
+            if (result) {
+                res.send('Item removed from favorite list');
+            }
+            else { 
+                res.send('Error while removing item from favorites')
+            }
+        }
+        else { 
+            res.status(404).send('Item not found')
+
+        }   
+    } else { 
+        res.status(404).send("Not found")
+
+    }
+
+}
+//WIP
+exports.addPurchasedItemToUser = async (req, res) => { 
+    const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
+    if(!userIdFromToken){
+        return res.status(401).json({error: true,message: "Please login"});
+    }
+    const itemId = req.params.id
+    if (itemId) {
+        const item = await ItemModel.getItemById(itemId);
+        if (item) { 
+            console.log(item);
+            const result = await ItemModel.addPurchasedItemToUser(itemId, userIdFromToken);
+            if (result) {
+                res.send('Bought Item Successfully');
+            }
+            else { 
+                res.send('Error while buying item')
+            }
+        }
+        else { 
+            res.status(404).send('Item not found')
+
+        }   
     } else { 
         res.status(404).send("Not found")
 

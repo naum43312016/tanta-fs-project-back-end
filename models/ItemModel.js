@@ -38,6 +38,18 @@ exports.addFavoriteItemToUser = async (itemId, userId) => {
     return result;
 }
 
+exports.removeFavoriteItemFromUser = async(itemId, userId) => {
+    if (!userId || !itemId) return null;
+    const result = await Item.removeFavoriteItemFromUser(itemId, userId);
+    return result;
+}
+//WIP
+exports.addPurchasedItemToUser = async (itemId, userId) => {
+    if (!userId || !itemId) return null;
+    const result = await Item.addPurchasedItemToUser(itemId, userId);
+    return result;
+}
+
 const createQueryForSearch = (searchQuery) => {
     if(!searchQuery) return {};
     const query = {};

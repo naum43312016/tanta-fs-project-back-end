@@ -76,8 +76,8 @@ exports.addFavoriteItemToUser = async (itemId, userId) => {
     const user = await User.getUserById(userId);
     if(user){
         const userFavoriteItems = user.favoriteItems;
-        const stringUserFavoriteItems = userFavoriteItems.map(item => item.toString());
-        const isRepeatedItem = stringUserFavoriteItems.find(item => item === itemId);
+        const userFavoriteItemsToString = userFavoriteItems.map(item => item.toString());
+        const isRepeatedItem = userFavoriteItemsToString.find(item => item === itemId);
         if (!isRepeatedItem) {
             userFavoriteItems.push(ObjectID(itemId))
             const result = await User.updateUserFavoriteItems(userId, userFavoriteItems);
@@ -89,9 +89,62 @@ exports.addFavoriteItemToUser = async (itemId, userId) => {
         }
         else { 
             return null;
-        }
-        
+        }     
     }else{
         return null;
     }
 }
+
+exports.removeFavoriteItemFromUser = async (itemId, userId) => {
+    const user = await User.getUserById(userId);
+    if(user){
+        const userFavoriteItems = user.favoriteItems;
+        const userFavoriteItemsToString = userFavoriteItems.map(item => item.toString());
+        const indexOfItemToRemove = userFavoriteItemsToString.indexOf(itemId);
+        if (indexOfItemToRemove) {
+            userFavoriteItemsToString.splice(indexOfItemToRemove, 1);
+            const updatedUserFavoriteItemsToObjectId = userFavoriteItemsToString.map(item => ObjectID(item));
+            const result = await User.updateUserFavoriteItems(userId, updatedUserFavoriteItemsToObjectId);
+             if (result) {
+                return true;
+            } else {
+                return null;
+            }
+        }
+        else { 
+            return null;
+        } 
+    }else{
+        return null;
+    }
+}
+
+//WIP
+exports.addPurchasedItemToUser = async (itemId, userId) => {
+    const user = await User.getUserById(userId);
+    if (user) {
+        const result = await Item.changeItemStatusToSold(itemId);
+        
+        if (result) {
+            return true;
+        } else {
+            return null;
+        }
+    } else { 
+        return null;
+    }
+}
+//WIP
+exports.changeItemStatusToSold = async (itemId) => { 
+    const _db = getDb();
+    try {
+        const collection = _db.collection('items');
+        const item = await collection.updateOne({ '_id': ObjectID(itemId) }, { $set: {$status: 'sold'}});
+        return item;
+        
+    } catch {
+        return null;
+    }
+   
+}
+
