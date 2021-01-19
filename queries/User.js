@@ -72,7 +72,6 @@ exports.updateUserItems = async (userId,userItems) => {
 
 exports.updateUserFavoriteItems = async (userId, userFavoriteItems) => { 
     const _db = getDb();
-    console.log(userFavoriteItems)
     try {
         const collection = _db.collection('users');
         const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $set: { favoriteItems: userFavoriteItems } });
