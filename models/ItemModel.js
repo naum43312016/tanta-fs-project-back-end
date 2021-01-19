@@ -1,8 +1,9 @@
 const Item = require('../queries/Item');
+const ObjectID = require('mongodb').ObjectID;
 
 exports.createItem = async (item,userId) => {
     cropImageUrl(item);
-    const itemToInsert = getItemToInsert(item);
+    const itemToInsert = getItemToInsert(item,userId);
     const insertionResult = await Item.add(itemToInsert);
     if(insertionResult){
         const itemAddedToUser = await addCreatedItemToUser(insertionResult,userId);
@@ -87,7 +88,7 @@ const cropImageUrl = (item) => {
     item.imageUrl = croppedImageUrl;
 }
 
-const getItemToInsert = (item) => {
+const getItemToInsert = (item,sellerId) => {
     return {
         category: item.category,
         imageUrl: item.imageUrl,
@@ -95,7 +96,8 @@ const getItemToInsert = (item) => {
         name: item.name,
         description: item.description,
         condition: item.condition,
-        status: 'available'
+        status: 'available',
+        sellerId: ObjectID(sellerId)
     }
 }
 

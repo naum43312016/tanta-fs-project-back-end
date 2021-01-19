@@ -17,7 +17,7 @@ exports.createItem = async (req,res) => {
         //validate item formdata
         const item = req.body;
         //convert price to int
-        item.price = parseInt(item.price,10);
+        item.price = parseInt(item.price, 10);
         const validationResult = ItemValidation.validateItemCreation(item);
         if(validationResult===true){
             ItemValidation.escapeCharsForItem(item);
