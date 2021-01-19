@@ -1,4 +1,5 @@
 const Item = require('../queries/Item');
+const User = require('../queries/User');
 
 exports.createItem = async (item,userId) => {
     cropImageUrl(item);
@@ -48,6 +49,15 @@ exports.addPurchasedItemToUser = async (itemId, userId) => {
     if (!userId || !itemId) return null;
     const result = await Item.addPurchasedItemToUser(itemId, userId);
     return result;
+}
+
+exports.removeItem = async (user,item) => {
+    const result = await Item.removeItem(user,item);
+    if(result){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 const createQueryForSearch = (searchQuery) => {

@@ -1,4 +1,4 @@
-const {getDb} = require('../config/dbConnection');
+const {getDb,getConnection} = require('../config/dbConnection');
 const ObjectID = require('mongodb').ObjectID;
 const User = require('./User');
 const ITEMS_PER_PAGE = 12;
@@ -148,3 +148,23 @@ exports.changeItemStatusToSold = async (itemId) => {
    
 }
 
+exports.removeItem = async (user,item) => {
+    try{
+        const connection = getConnection();
+        const _db = getDb();
+        const session = connection.startSession();
+        session.startTransaction();
+        user.items = user.items.filter((id) => { if(id.toString() !== item._id.toString()) return id; })
+        const usersCollection = _db.collection('users');
+        const itemsCollection = _db.collection('items');
+        await usersCollection.updateOne({"_id": user._id},{$set : {items : user.items}});
+        await itemsCollection.deleteOne({_id : item._id});
+        await session.commitTransaction();
+        session.endSession();
+        return true;
+    }catch{
+        await session.abortTransaction();
+        session.endSession();
+        return false;
+    }
+}
