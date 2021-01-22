@@ -19,6 +19,7 @@
     "express-fileupload": "^1.2.1",
     "express-form-data": "^2.0.14",
     "express-kun": "^1.0.24",
+    "heroku": "^7.47.10",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3",
     "nodemon": "^2.0.7",
