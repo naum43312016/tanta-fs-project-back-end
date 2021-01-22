@@ -1,4 +1,6 @@
 const UserModel = require('../models/UserModel');
+const TokenHelper = require('../helpers/TokenHelper');
+
 //for Admin dashboard
 exports.getAllUsers = async (req, res) => { 
     const allUsers = await UserModel.getAllUsers();
@@ -21,5 +23,19 @@ exports.getUserById = async (req, res) => {
         }
     } else { 
         res.status(404).send('Not found')
+    }
+}
+
+exports.getUserFavorites = async (req, res) => {
+    const userIdFromToken = await TokenHelper.getUserIdFromRequestToken(req);
+    if(!userIdFromToken){
+        return res.status(401).json({error: true,message: "Please login"});
+    }
+    const id = userIdFromToken;
+    try {
+        const favorites = await UserModel.getUserFavorites(id);
+        return res.status(200).send(favorites);
+    } catch {
+        res.status(500).send('server error');
     }
 }

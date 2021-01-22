@@ -35,6 +35,9 @@ app.post('/item/:id/favorite', ItemController.addFavoriteItemToUser);
 app.get('/item/:id', ItemController.getItemById);
 app.get("/home/get-all-items", ItemController.getAllItems);
 
+//UserItem endpoints
+app.get('/user/favorites', UserController.getUserFavorites)
+
 //User endpoints
 app.get("/user/all", UserController.getAllUsers)
 app.get("/user/:id", UserController.getUserById)

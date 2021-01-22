@@ -77,7 +77,6 @@ exports.addFavoriteItemToUser = async (req, res) => {
         return res.status(401).json({error: true,message: "Please login"});
     }
     const _id = req.params.id
-
     if (_id) {
         const item = await ItemModel.getItemById(_id);
         if (item) { 

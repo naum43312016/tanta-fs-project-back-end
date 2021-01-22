@@ -81,3 +81,14 @@ exports.updateUserFavoriteItems = async (userId, userFavoriteItems) => {
         return null;
     }
 }
+
+exports.getAllUserFavorites = async (id) => {
+    const _db = getDb();
+    try {
+        const collection = _db.collection('users');
+        const user = await collection.findOne({_id: ObjectID(id)})
+        return user.favoriteItems;
+    } catch {
+        return null;
+    }
+}

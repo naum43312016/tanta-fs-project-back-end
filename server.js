@@ -2,7 +2,7 @@ const app = require('./app');
 const port = process.env.PORT || 3001;
 const dbConnection = require('./config/dbConnection')
 
-async function connectToDatabaseAndStartServer(){
+async function connectToDatabaseAndStartServer() {
     try{
         await dbConnection.connectToDbServer();
         app.listen(port, () => {

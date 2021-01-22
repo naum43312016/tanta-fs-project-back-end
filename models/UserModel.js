@@ -61,3 +61,8 @@ exports.getUserById = async (_id) => {
     return user;
 }
 
+exports.getUserFavorites = async (id) => {
+    const favoriteItems = await User.getAllUserFavorites(id);
+    return favoriteItems;
+}
+
