@@ -1,8 +1,10 @@
 const Item = require('../queries/Item');
+const User = require('../queries/User');
+const ObjectID = require('mongodb').ObjectID;
 
 exports.createItem = async (item,userId) => {
     cropImageUrl(item);
-    const itemToInsert = getItemToInsert(item);
+    const itemToInsert = getItemToInsert(item,userId);
     const insertionResult = await Item.add(itemToInsert);
     if(insertionResult){
         const itemAddedToUser = await addCreatedItemToUser(insertionResult,userId);
@@ -36,6 +38,27 @@ exports.addFavoriteItemToUser = async (itemId, userId) => {
     if (!userId || !itemId) return null;
     const result = await Item.addFavoriteItemToUser(itemId, userId);
     return result;
+}
+
+exports.removeFavoriteItemFromUser = async(itemId, userId) => {
+    if (!userId || !itemId) return null;
+    const result = await Item.removeFavoriteItemFromUser(itemId, userId);
+    return result;
+}
+//WIP
+exports.addPurchasedItemToUser = async (itemId, userId) => {
+    if (!userId || !itemId) return null;
+    const result = await Item.addPurchasedItemToUser(itemId, userId);
+    return result;
+}
+
+exports.removeItem = async (user,item) => {
+    const result = await Item.removeItem(user,item);
+    if(result){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 const createQueryForSearch = (searchQuery) => {
@@ -75,7 +98,7 @@ const cropImageUrl = (item) => {
     item.imageUrl = croppedImageUrl;
 }
 
-const getItemToInsert = (item) => {
+const getItemToInsert = (item,sellerId) => {
     return {
         category: item.category,
         imageUrl: item.imageUrl,
@@ -83,7 +106,8 @@ const getItemToInsert = (item) => {
         name: item.name,
         description: item.description,
         condition: item.condition,
-        status: 'available'
+        status: 'available',
+        sellerId: ObjectID(sellerId)
     }
 }
 

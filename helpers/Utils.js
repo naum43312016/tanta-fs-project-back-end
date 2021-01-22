@@ -5,3 +5,14 @@ exports.getPageFromQueryString = (page) => {
     }
     return page;
 }
+
+exports.checkIfUserHaveItem = (user,itemId) => {
+    const userItems = user.items;
+    for(let i=0;i<userItems.length;i++){
+        if(userItems[i].toString() === itemId){
+            return true;
+        }
+    }
+    return false;
+}
+
