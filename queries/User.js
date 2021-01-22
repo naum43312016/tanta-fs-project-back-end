@@ -81,7 +81,6 @@ exports.updateUserFavoriteItems = async (userId, userFavoriteItems) => {
         return null;
     }
 }
-<<<<<<< HEAD
 
 exports.getAllUserFavorites = async (id) => {
     const _db = getDb();
@@ -92,20 +91,4 @@ exports.getAllUserFavorites = async (id) => {
     } catch {
         return null;
     }
-=======
-//WIP
-exports.updateUserPurchasedItems = async (userId, userPurchasedItems) => {
-    const _db = getDb();
-    try {
-        const collection = _db.collection('users');
-        const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $set: { purchasedItem: userPurchasedItems } });
-        return user;
-        
-    } catch (error) {
-        return null;
-        
-    }
-    
-
->>>>>>> 839c2b588ff81be136f4b75209d1ec1f5e42f7b7
 }
