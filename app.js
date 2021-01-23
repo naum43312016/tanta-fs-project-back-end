@@ -37,10 +37,10 @@ app.delete('/item/:id/favorite', ItemController.deleteFavoriteItemFromUser);
 app.get('/item/:id', ItemController.getItemById);
 app.get("/home/get-all-items", ItemController.getAllItems);
 app.delete('/item/:id',ItemController.deleteItem);
+app.put('/purchase/:id', ItemController.purchaseItem);
 
 //UserItem endpoints
 app.get('/user/favorites', UserController.getUserFavorites)
-// app.get('/user/purchased', UserController.getUserPurchased)
 
 //User endpoints
 app.get("/user/all", UserController.getAllUsers);

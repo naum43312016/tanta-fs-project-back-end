@@ -61,6 +61,10 @@ exports.removeItem = async (user,item) => {
     }
 }
 
+exports.purchaseItem = async (item, buyer, seller) => {
+    return await Item.purchaseItem(item, buyer, seller);
+}
+
 const createQueryForSearch = (searchQuery) => {
     if(!searchQuery) return {};
     const query = {};
@@ -110,4 +114,3 @@ const getItemToInsert = (item,sellerId) => {
         sellerId: ObjectID(sellerId)
     }
 }
-

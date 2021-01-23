@@ -150,3 +150,17 @@ exports.removeItem = async (user, item) => {
         return false;
     }
 }
+
+exports.purchaseItem = async (item, buyer, seller) => {
+    const _db = getDb();
+    try {  
+        const usersCollection = _db.collection('users');
+        const itemsCollection = _db.collection('items');
+        // await usersCollection.updateOne({$_id: ObjectID(buyer._id)}, {$push: {purchasedItems: ObjectID(item._id)}});
+        usersCollection.updateOne({_id: ObjectID(buyer._id)}, {$inc: {coins: -2}});
+        return true;
+    }
+    catch {
+        return false;
+    }
+}

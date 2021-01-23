@@ -2,6 +2,7 @@ const Cloudinary = require('../lib/Cloudinary');
 const ImageValidator = require('../validation/ImageValidator');
 const ItemValidation = require('../validation/ItemValidation');
 const ItemModel = require('../models/ItemModel');
+const UserModel = require('../models/UserModel');
 const TokenHelper = require('../helpers/TokenHelper');
 const User = require('../queries/User');
 const Utils = require('../helpers/Utils');
@@ -175,4 +176,19 @@ exports.deleteItem = async (req,res) => {
         res.status(404).send("Not found");
     }
 
+}
+
+exports.purchaseItem = async (req, res) => {
+    const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
+    if(!userIdFromToken){
+        return res.status(401).json({error: true,message: "Please login"});
+    }
+    const itemId = req.params.id;
+    const item = await ItemModel.getItemById(itemId);
+    const sellerId = item.sellerId;
+    const buyer = await UserModel.getUserById(userIdFromToken);
+    const seller = await UserModel.getUserById(sellerId);
+    if (item) {
+       result = await ItemModel.purchaseItem(item, buyer, seller);
+    }
 }
