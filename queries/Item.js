@@ -90,7 +90,6 @@ exports.addFavoriteItemToUser = async (itemId, userId) => {
 exports.removeFavoriteItemFromUser = async (itemId, userId) => {
     const user = await User.getUserById(userId);
     if (user) {
-        console.log(user)
         const result = await User.removeFavoriteItemFromUser(userId, itemId);
         if (result) {
             return true;

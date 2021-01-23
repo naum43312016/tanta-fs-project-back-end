@@ -86,7 +86,7 @@ exports.removeFavoriteItemFromUser = async (userId, itemId) => {
     const _db = getDb();
     try {
         const collection = _db.collection('users');
-        const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $pull: { favoriteItems: `${itemId}` } });
+        const user = await collection.updateOne({ _id: ObjectID(userId) }, { $pull: { favoriteItems: `${itemId}` } });
         return user;
 
     } catch (error) {
