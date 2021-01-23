@@ -31,7 +31,7 @@ app.get("/category/:id",CategoryController.getCategoryById);
 
 //Item endpoints
 app.post("/item", ItemController.createItem);
-app.post('/item/:id/purchase', ItemController.addPurchasedItemToUser);
+app.post('/item/:id/purchase', ItemController.purchaseItem);
 app.post('/item/:id/favorite', ItemController.addFavoriteItemToUser);
 app.delete('/item/:id/favorite', ItemController.deleteFavoriteItemFromUser);
 app.get('/item/:id', ItemController.getItemById);
