@@ -119,6 +119,21 @@ exports.removeFavoriteItemFromUser = async (itemId, userId) => {
     }
 }
 
+// exports.removeFavoriteItemFromUser = async (itemId, userId) => {
+    //     const user = await User.getUserById(userId);
+    //     if (user) {
+    //         console.log(user)
+    //         const result = await User.updateUserFavoriteItems(userId, itemId);
+    //         if (result) {
+    //             return true;
+    //         } else {
+    //             return null;
+    //         }
+    //     } else {
+    //         return null;
+    //     }
+    // }
+
 //WIP
 exports.addPurchasedItemToUser = async (itemId, userId) => {
     const user = await User.getUserById(userId);

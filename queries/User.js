@@ -82,6 +82,19 @@ exports.updateUserFavoriteItems = async (userId, userFavoriteItems) => {
     }
 }
 
+// exports.removeFavoriteItemFromUser = async (userId, itemId) => { 
+//     const _db = getDb();
+//     try {
+//         const collection = _db.collection('users');
+//         console.log(userId, itemId)
+//         const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $pull: { favoriteItems: `${itemId}` } });
+//         return user;
+
+//     } catch (error) {
+//         return null;
+//     }
+// }
+
 exports.getAllUserFavorites = async (id) => {
     const _db = getDb();
     try {
