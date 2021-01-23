@@ -101,34 +101,6 @@ exports.removeFavoriteItemFromUser = async (itemId, userId) => {
     }
 }
 
-//WIP
-exports.addPurchasedItemToUser = async (itemId, userId) => {
-    const user = await User.getUserById(userId);
-    if (user) {
-        const result = await Item.changeItemStatusToSold(itemId);
-
-        if (result) {
-            return true;
-        } else {
-            return null;
-        }
-    } else {
-        return null;
-    }
-}
-//WIP
-exports.changeItemStatusToSold = async (itemId) => {
-    const _db = getDb();
-    try {
-        const collection = _db.collection('items');
-        const item = await collection.updateOne({ '_id': ObjectID(itemId) }, { $set: { $status: 'sold' } });
-        return item;
-
-    } catch {
-        return null;
-    }
-
-}
 
 exports.removeItem = async (user, item) => {
     try {
@@ -156,8 +128,23 @@ exports.purchaseItem = async (item, buyer, seller) => {
     try {  
         const usersCollection = _db.collection('users');
         const itemsCollection = _db.collection('items');
-        // await usersCollection.updateOne({$_id: ObjectID(buyer._id)}, {$push: {purchasedItems: ObjectID(item._id)}});
-        usersCollection.updateOne({_id: ObjectID(buyer._id)}, {$inc: {coins: -2}});
+        await usersCollection.updateOne({_id: ObjectID(buyer._id)}, 
+            {
+                $inc: {coins: -item.price}, 
+                $push: {purchasedItems: item._id}
+            } 
+        );
+
+        await usersCollection.updateOne({_id: ObjectID(seller._id)}, 
+            {
+                $inc: {coins: +item.price}, 
+            } 
+        );
+        await itemsCollection.updateOne({_id: ObjectID(item._id)}, 
+            {
+                $set: {status: 'sold'}
+            }
+        );
         return true;
     }
     catch {
