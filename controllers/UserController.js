@@ -31,6 +31,7 @@ exports.getUserFilter = async (req, res) => {
     if(!userIdFromToken){
         return res.status(401).json({error: true,message: "Please login"});
     }
+    console.log(req.query.type)
     const id = userIdFromToken;
     try {
         const filteredItems = await UserModel.getUserFilter(id, req.query.type);
