@@ -167,10 +167,11 @@ exports.purchaseItem = async (item, buyer, seller) => {
         const itemsCollection = _db.collection('items');
         const purchasedItemsCollection = _db.collection('purchased items');
         await usersCollection.updateOne({_id: ObjectID(buyer._id)}, {$inc: {coins: -item.price}, $push: {purchasedItems: ObjectID(item._id)}});
-        await usersCollection.updateOne({_id: ObjectID(seller._id)}, {$inc: {coins: item.price}, $push: {soldItems: ObjectID(item._id)}});
+        await usersCollection.updateOne({_id: ObjectID(seller._id)}, {$inc: {coins: item.price}, $push: {soldItems: ObjectID(item._id)}, $pull: {items: ObjectID(item._id)}});
         await itemsCollection.updateOne({_id: ObjectID(item._id)}, {$set: {status: 'sold'}});
         await purchasedItemsCollection.insertOne(item);
         await itemsCollection.deleteOne({_id: ObjectID(item._id)});
+        await usersCollection.updateMany({}, {$pull: {favoriteItems: ObjectID(item._id)}})
         return true;
     }
     catch {

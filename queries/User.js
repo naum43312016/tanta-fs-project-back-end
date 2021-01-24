@@ -74,7 +74,7 @@ exports.addFavoriteItemFromUser = async (userId, itemId) => {
     const _db = getDb();
     try {
         const collection = _db.collection('users');
-        const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $push: { favoriteItems: `${itemId}` } });
+        const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $push: { favoriteItems: ObjectID(itemId) } });
         return user;
     } catch (error) {
         return null;
@@ -85,7 +85,7 @@ exports.removeFavoriteItemFromUser = async (userId, itemId) => {
     const _db = getDb();
     try {
         const collection = _db.collection('users');
-        const user = await collection.updateOne({ _id: ObjectID(userId) }, { $pull: { favoriteItems: `${itemId}` } });
+        const user = await collection.updateOne({ _id: ObjectID(userId) }, { $pull: { favoriteItems: ObjectID(itemId) } });
         return user;
 
     } catch (error) {
