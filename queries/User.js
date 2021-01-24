@@ -79,7 +79,7 @@ exports.addFavoriteItemFromUser = async (userId, itemId) => {
                 const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $push: { favoriteItems: `${itemId}` } });
                 return user;
             } else {
-                return null
+                console.log('already exist')
             }
         })
     } catch (error) {
@@ -96,7 +96,7 @@ exports.removeFavoriteItemFromUser = async (userId, itemId) => {
                 const user = await collection.updateOne({ '_id': ObjectID(userId) }, { $pull: { favoriteItems: `${itemId}` } });
                 return user;
             } else {
-                return null
+                console.log("doesn't exist")
             }
         })
     } catch (error) {

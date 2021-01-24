@@ -128,16 +128,19 @@ exports.purchaseItem = async (item, buyer, seller) => {
     try {  
         const usersCollection = _db.collection('users');
         const itemsCollection = _db.collection('items');
+        if(seller._id.equals(buyer._id)) {
+            throw new Error("The buyer can't be the owner")
+        }
         await usersCollection.updateOne({_id: ObjectID(buyer._id)}, 
             {
-                $inc: {coins: -item.price}, 
+                $set: {coins: buyer.coins - item.price}, 
                 $push: {purchasedItems: item._id}
             } 
         );
 
         await usersCollection.updateOne({_id: ObjectID(seller._id)}, 
             {
-                $inc: {coins: +item.price}, 
+                $set: {coins: buyer.coins + item.price}, 
             } 
         );
         await itemsCollection.updateOne({_id: ObjectID(item._id)}, 
@@ -147,7 +150,8 @@ exports.purchaseItem = async (item, buyer, seller) => {
         );
         return true;
     }
-    catch {
-        return false;
+    catch (error) {
+        console.error(error)
+        return false
     }
 }
