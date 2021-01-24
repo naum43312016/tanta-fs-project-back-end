@@ -23,6 +23,11 @@ exports.getAllItems = async () => {
     return allItems;
 }
 
+exports.getAllPurchasedItems = async () => {
+    const allItems = await Item.getAllPurchasedItems();
+    return allItems;
+}
+
 exports.getItemById = async (_id) => {
     const item = await Item.getItemById(_id);
     return item;

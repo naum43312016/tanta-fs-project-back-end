@@ -36,6 +36,7 @@ app.post('/item/:id/favorite', ItemController.addFavoriteItemToUser);
 app.delete('/item/:id/favorite', ItemController.deleteFavoriteItemFromUser);
 app.get('/item/:id', ItemController.getItemById);
 app.get("/home/get-all-items", ItemController.getAllItems);
+app.get('/get-all-purchased-items', ItemController.getAllPurchasedItems);
 app.delete('/item/:id',ItemController.deleteItem);
 app.put('/purchase/:id', ItemController.purchaseItem);
 
