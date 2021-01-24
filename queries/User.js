@@ -93,35 +93,27 @@ exports.removeFavoriteItemFromUser = async (userId, itemId) => {
     }
 }
 
-exports.getUserFilter = async (id, type) => {
+exports.getAllUserFavorites = async (id) => {
     const _db = getDb();
     try {
-        const usersCollection = _db.collection('users');
-        const itemsCollection = _db.collection('items');
-        const purchasedItemsCollection = _db.collection('purchased items');
-        const itemsArray = await itemsCollection.find().toArray();
-        const purchasedItemsArray = await purchasedItemsCollection.find().toArray();
+        const collection = _db.collection('users');
+        const user = await collection.findOne({_id: ObjectID(id)})
+        return user.favoriteItems;
+    } catch {
+        return null;
+    }
+}
+
+exports.getUserFilter = async (id, type) => {
+    const _db = getDb();
+    const usersCollection = _db.collection('users');
+    try {
         const user = await usersCollection.findOne({ _id: ObjectID(id) })
-        if (type === 'favorites') { //HERE --> I'm trying to get all items that are in the user's favorites array. 
-            const userFavoriteItems = user.favoriteItems;
-            const myArray = [];
-            const filteredItems = userFavoriteItems.map(async (id) => {
-                itemsArray.map(item => console.log(id))
-            });
-            return filteredItems;
-        }
-        else if (type === 'selling') { //HERE --> I'm trying to get all items that are in the user's items array.
-            const userSellingItems = user.items;
-            const filteredItems = itemsArray.filter(item => userSellingItems.includes(`${item._id}`));
-            return filteredItems;
-        } else if (type === 'purchased') { //HERE --> I'm trying to get all items that are in the user's purchased array.
-            const userPurchasedItems = user.purchasedItems;
-            const filteredItems = purchasedItemsArray.filter(item => userPurchasedItems.includes(`${item._id}`));
-            return filteredItems;
-        } else if (type === 'sold') { //HERE --> I'm trying to get all items that are in the user's sold array.
-            const userSoldItems = user.soldItems;
-            const filteredItems = purchasedItemsArray.filter(item => userSoldItems.includes());
-            return filteredItems;
+        switch (type) {
+            case 'favorites': return user.favoriteItems;
+            case 'selling': return user.items;
+            case 'purchased': return user.purchasedItems;
+            case 'sold': return user.soldItems;
         }
     } catch {
         return null;

@@ -43,6 +43,7 @@ app.put('/purchase/:id', ItemController.purchaseItem);
 app.get('/user/filter', UserController.getUserFilter);
 
 //User endpoints
+app.get('/user/favorites', UserController.getUserFavorites)
 app.get("/user/all", UserController.getAllUsers);
 app.get("/user/:id", UserController.getUserById);
 
