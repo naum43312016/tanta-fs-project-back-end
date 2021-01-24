@@ -93,12 +93,20 @@ exports.removeFavoriteItemFromUser = async (userId, itemId) => {
     }
 }
 
-exports.getAllUserFavorites = async (id) => {
+exports.getUserFilter = async (id, type) => {
     const _db = getDb();
     try {
         const collection = _db.collection('users');
         const user = await collection.findOne({_id: ObjectID(id)})
-        return user.favoriteItems;
+        if (type === 'favorites') {
+            return user.favoriteItems;
+        } else if (type === 'selling') {
+            return user.items;
+        } else if (type === 'purchased') {
+            return user.purchasedItems;
+        } else if (type === 'sold') {
+            return user.soldItems;
+        }
     } catch {
         return null;
     }

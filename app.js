@@ -39,11 +39,8 @@ app.get("/home/get-all-items", ItemController.getAllItems);
 app.delete('/item/:id',ItemController.deleteItem);
 app.put('/purchase/:id', ItemController.purchaseItem);
 
-//UserItem endpoints
-app.get('/user/favorites', UserController.getUserFavorites);
-app.get('/user/purchased');
-app.get('/user/sold');
-app.get('/user/selling');
+//UserItemFilter endpoints
+app.get('/user/filter', UserController.getUserFilter);
 
 //User endpoints
 app.get("/user/all", UserController.getAllUsers);
