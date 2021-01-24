@@ -45,6 +45,17 @@ exports.getAllItems = async () => {
     }
 }
 
+exports.getAllPurchasedItems = async () => {
+    const _db = getDb();
+    try {
+        const collection = _db.collection('purchased items');
+        const result = await collection.find({}).toArray();
+        return result;
+    } catch {
+        return null;
+    }
+}
+
 exports.getItemById = async (_id) => {
     const _db = getDb();
     try {
@@ -106,7 +117,6 @@ exports.addPurchasedItemToUser = async (itemId, userId) => {
     const user = await User.getUserById(userId);
     if (user) {
         const result = await Item.changeItemStatusToSold(itemId);
-
         if (result) {
             return true;
         } else {
@@ -127,7 +137,6 @@ exports.changeItemStatusToSold = async (itemId) => {
     } catch {
         return null;
     }
-
 }
 
 exports.removeItem = async (user, item) => {

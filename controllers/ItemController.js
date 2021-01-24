@@ -73,6 +73,15 @@ exports.getAllItems = async (req, res) => {
     }
 }
 
+exports.getAllPurchasedItems = async (req, res) => {
+    const allItems = await ItemModel.getAllPurchasedItems();
+    if (allItems) {
+        res.json(allItems);
+    } else {
+        res.status(500).send("Server error");
+    }
+}
+
 exports.addFavoriteItemToUser = async (req, res) => {
     const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
     if (!userIdFromToken) {
