@@ -189,6 +189,7 @@ exports.deleteItem = async (req, res) => {
 
 exports.purchaseItem = async (req, res) => {
     const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
+    console.log(userIdFromToken)
     if (!userIdFromToken) {
         return res.status(401).json({ error: true, message: "Please login" });
     }
@@ -198,12 +199,19 @@ exports.purchaseItem = async (req, res) => {
     const buyer = await UserModel.getUserById(userIdFromToken);
     const seller = await UserModel.getUserById(sellerId);
     if (item) {
-        result = await ItemModel.purchaseItem(item, buyer, seller);
-        if (result) {
-            res.status(200).send("Item purchased")
-            return
+        if (buyer.coins >= item.price) {
+            console.log(item.price)
+            console.log(buyer.coins)
+            result = await ItemModel.purchaseItem(item, buyer, seller);
+            if (result) {
+                res.status(200).send("Item purchased")
+                return
+            }
+            res.status(500).send('Server error');
         }
-        res.status(500).send('Server error');
+        else { 
+            res.status(400).send("You do not have enough coins to buy the item")
+        }
     }
     else {
         res.status(400).send('No item was found');

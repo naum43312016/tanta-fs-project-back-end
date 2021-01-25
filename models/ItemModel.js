@@ -67,7 +67,13 @@ exports.removeItem = async (user,item) => {
 }
 
 exports.purchaseItem = async (item, buyer, seller) => {
-    return await Item.purchaseItem(item, buyer, seller);
+    if (!item || !buyer || !seller) return null;
+    const result = await Item.purchaseItem(item, buyer, seller);
+    if(result){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 const createQueryForSearch = (searchQuery) => {

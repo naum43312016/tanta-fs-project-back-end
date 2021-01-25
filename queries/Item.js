@@ -161,8 +161,11 @@ exports.removeItem = async (user, item) => {
 }
 
 exports.purchaseItem = async (item, buyer, seller) => {
-    const _db = getDb();
-    try {  
+    try {
+        const connection = getConnection();
+        const _db = getDb();
+        const session = connection.startSession();
+        session.startTransaction();
         const usersCollection = _db.collection('users');
         const itemsCollection = _db.collection('items');
         const purchasedItemsCollection = _db.collection('purchased items');
@@ -171,9 +174,13 @@ exports.purchaseItem = async (item, buyer, seller) => {
         await itemsCollection.updateOne({_id: ObjectID(item._id)}, {$set: {status: 'sold'}});
         await purchasedItemsCollection.insertOne(item);
         await itemsCollection.deleteOne({_id: ObjectID(item._id)});
+        await session.commitTransaction();
+        session.endSession();
         return true;
     }
     catch {
+        await session.abortTransaction();
+        session.endSession();
         return false;
     }
 }
