@@ -21,9 +21,13 @@ exports.add = async (item) => {
 exports.addItemToUser = async (item, userId) => {
     const user = await User.getUserById(userId);
     if (user) {
+        console.log(user.countUploads)
+        const userCountUploads = user.countUploads + 1;
+        const userCoins = user.coins;
+        console.log(user.countUploads)
         const userItems = user.items;
         userItems.push(ObjectID(item._id))
-        const result = await User.updateUserItems(userId, userItems);
+        const result = await User.updateUserItems(userId, userItems, userCountUploads, userCoins);
         if (result) {
             return true;
         } else {
