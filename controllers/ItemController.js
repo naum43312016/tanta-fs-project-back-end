@@ -136,31 +136,6 @@ exports.deleteFavoriteItemFromUser = async (req, res) => {
     }
 
 }
-//WIP
-exports.addPurchasedItemToUser = async (req, res) => {
-    const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
-    if (!userIdFromToken) {
-        return res.status(401).json({ error: true, message: "Please login" });
-    }
-    const itemId = req.params.id;
-    if (itemId) {
-        const item = await ItemModel.getItemById(itemId);
-        if (item) {
-            const result = await ItemModel.addPurchasedItemToUser(itemId, userIdFromToken);
-            if (result) {
-                res.send('Bought Item Successfully');
-            }
-            else {
-                res.send('Error while buying item');
-            }
-        }
-        else {
-            res.status(404).send('Item not found');
-        }
-    } else {
-        res.status(404).send("Not found");
-    }
-}
 
 exports.deleteItem = async (req, res) => {
     const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
@@ -189,7 +164,6 @@ exports.deleteItem = async (req, res) => {
 
 exports.purchaseItem = async (req, res) => {
     const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
-    console.log(userIdFromToken)
     if (!userIdFromToken) {
         return res.status(401).json({ error: true, message: "Please login" });
     }

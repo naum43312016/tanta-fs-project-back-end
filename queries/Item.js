@@ -112,33 +112,6 @@ exports.removeFavoriteItemFromUser = async (itemId, userId) => {
     }
 }
 
-//WIP
-exports.addPurchasedItemToUser = async (itemId, userId) => {
-    const user = await User.getUserById(userId);
-    if (user) {
-        const result = await Item.changeItemStatusToSold(itemId);
-        if (result) {
-            return true;
-        } else {
-            return null;
-        }
-    } else {
-        return null;
-    }
-}
-//WIP
-exports.changeItemStatusToSold = async (itemId) => {
-    const _db = getDb();
-    try {
-        const collection = _db.collection('items');
-        const item = await collection.updateOne({ '_id': ObjectID(itemId) }, { $set: { $status: 'sold' } });
-        return item;
-
-    } catch {
-        return null;
-    }
-}
-
 exports.removeItem = async (user, item) => {
     try {
         const connection = getConnection();

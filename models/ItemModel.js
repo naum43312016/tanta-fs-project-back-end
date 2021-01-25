@@ -50,12 +50,6 @@ exports.removeFavoriteItemFromUser = async(itemId, userId) => {
     const result = await Item.removeFavoriteItemFromUser(itemId, userId);
     return result;
 }
-//WIP
-exports.addPurchasedItemToUser = async (itemId, userId) => {
-    if (!userId || !itemId) return null;
-    const result = await Item.addPurchasedItemToUser(itemId, userId);
-    return result;
-}
 
 exports.removeItem = async (user,item) => {
     const result = await Item.removeItem(user,item);
