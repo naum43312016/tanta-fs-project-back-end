@@ -200,14 +200,12 @@ exports.purchaseItem = async (req, res) => {
     const seller = await UserModel.getUserById(sellerId);
     if (item) {
         if (buyer.coins >= item.price) {
-            console.log(item.price)
-            console.log(buyer.coins)
             result = await ItemModel.purchaseItem(item, buyer, seller);
             if (result) {
-                res.status(200).send("Item purchased")
-                return
+                res.status(200).send("Item purchased");
+            }else {
+                res.status(500).send("Server error");
             }
-            res.status(500).send('Server error');
         }
         else { 
             res.status(400).send("You do not have enough coins to buy the item")
