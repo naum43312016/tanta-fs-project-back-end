@@ -41,7 +41,8 @@ const createUserObjectToInsert = (user) => {
         coins: 5,
         items: [],
         purchasedItems: [],
-        favoriteItems: []
+        favoriteItems: [],
+        countUploads: 0
     }
 }
 

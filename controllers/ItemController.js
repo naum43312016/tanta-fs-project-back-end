@@ -136,31 +136,6 @@ exports.deleteFavoriteItemFromUser = async (req, res) => {
     }
 
 }
-//WIP
-exports.addPurchasedItemToUser = async (req, res) => {
-    const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
-    if (!userIdFromToken) {
-        return res.status(401).json({ error: true, message: "Please login" });
-    }
-    const itemId = req.params.id;
-    if (itemId) {
-        const item = await ItemModel.getItemById(itemId);
-        if (item) {
-            const result = await ItemModel.addPurchasedItemToUser(itemId, userIdFromToken);
-            if (result) {
-                res.send('Bought Item Successfully');
-            }
-            else {
-                res.send('Error while buying item');
-            }
-        }
-        else {
-            res.status(404).send('Item not found');
-        }
-    } else {
-        res.status(404).send("Not found");
-    }
-}
 
 exports.deleteItem = async (req, res) => {
     const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
@@ -198,12 +173,17 @@ exports.purchaseItem = async (req, res) => {
     const buyer = await UserModel.getUserById(userIdFromToken);
     const seller = await UserModel.getUserById(sellerId);
     if (item) {
-        result = await ItemModel.purchaseItem(item, buyer, seller);
-        if (result) {
-            res.status(200).send("Item purchased")
-            return
+        if (buyer.coins >= item.price) {
+            result = await ItemModel.purchaseItem(item, buyer, seller);
+            if (result) {
+                res.status(200).send("Item purchased");
+            }else {
+                res.status(500).send("Server error");
+            }
         }
-        res.status(500).send('Server error');
+        else { 
+            res.status(400).send("You do not have enough coins to buy the item")
+        }
     }
     else {
         res.status(400).send('No item was found');

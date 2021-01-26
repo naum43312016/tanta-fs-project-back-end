@@ -21,9 +21,13 @@ exports.add = async (item) => {
 exports.addItemToUser = async (item, userId) => {
     const user = await User.getUserById(userId);
     if (user) {
+        console.log(user.countUploads)
+        const userCountUploads = user.countUploads + 1;
+        const userCoins = user.coins;
+        console.log(user.countUploads)
         const userItems = user.items;
         userItems.push(ObjectID(item._id))
-        const result = await User.updateUserItems(userId, userItems);
+        const result = await User.updateUserItems(userId, userItems, userCountUploads, userCoins);
         if (result) {
             return true;
         } else {
@@ -112,33 +116,6 @@ exports.removeFavoriteItemFromUser = async (itemId, userId) => {
     }
 }
 
-//WIP
-exports.addPurchasedItemToUser = async (itemId, userId) => {
-    const user = await User.getUserById(userId);
-    if (user) {
-        const result = await Item.changeItemStatusToSold(itemId);
-        if (result) {
-            return true;
-        } else {
-            return null;
-        }
-    } else {
-        return null;
-    }
-}
-//WIP
-exports.changeItemStatusToSold = async (itemId) => {
-    const _db = getDb();
-    try {
-        const collection = _db.collection('items');
-        const item = await collection.updateOne({ '_id': ObjectID(itemId) }, { $set: { $status: 'sold' } });
-        return item;
-
-    } catch {
-        return null;
-    }
-}
-
 exports.removeItem = async (user, item) => {
     try {
         const connection = getConnection();
@@ -161,8 +138,11 @@ exports.removeItem = async (user, item) => {
 }
 
 exports.purchaseItem = async (item, buyer, seller) => {
-    const _db = getDb();
-    try {  
+    try {
+        const connection = getConnection();
+        const _db = getDb();
+        const session = connection.startSession();
+        session.startTransaction();
         const usersCollection = _db.collection('users');
         const itemsCollection = _db.collection('items');
         const purchasedItemsCollection = _db.collection('purchased items');
@@ -171,10 +151,13 @@ exports.purchaseItem = async (item, buyer, seller) => {
         await itemsCollection.updateOne({_id: ObjectID(item._id)}, {$set: {status: 'sold'}});
         await purchasedItemsCollection.insertOne(item);
         await itemsCollection.deleteOne({_id: ObjectID(item._id)});
-        await usersCollection.updateMany({}, {$pull: {favoriteItems: ObjectID(item._id)}})
+        await session.commitTransaction();
+        session.endSession();
         return true;
     }
     catch {
+        await session.abortTransaction();
+        session.endSession();
         return false;
     }
 }

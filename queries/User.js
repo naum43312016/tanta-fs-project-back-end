@@ -59,11 +59,16 @@ exports.getUserByEmail = async (email) => {
     }
 }
 
-exports.updateUserItems = async (userId, userItems) => {
+exports.updateUserItems = async (userId, userItems, userCountUploads, userCoins) => {
     const _db = getDb();
     try {
         const collection = _db.collection('users');
-        const user = await collection.updateOne({ "_id": ObjectID(userId) }, { $set: { items: userItems } });
+        let user;
+        if (userCountUploads <= 5) {
+            user = await collection.updateOne({ "_id": ObjectID(userId) }, { $set: { items: userItems, countUploads: userCountUploads, coins: userCoins +1 } });
+        } else {
+            user = await collection.updateOne({ "_id": ObjectID(userId) }, { $set: { items: userItems, countUploads: userCountUploads} });
+        }
         return user;
     } catch {
         return null;
