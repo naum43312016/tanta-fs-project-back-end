@@ -1,5 +1,4 @@
 const {connectToDbServer,getDb,closeConnection} = require('../config/dbConnection');
-const User = require('../queries/User');
 const request = require('supertest');
 const app = require('../app');
 const jwt = require('jsonwebtoken');
