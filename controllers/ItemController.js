@@ -6,6 +6,7 @@ const UserModel = require('../models/UserModel');
 const TokenHelper = require('../helpers/TokenHelper');
 const User = require('../queries/User');
 const Utils = require('../helpers/Utils');
+const EmailHandler = require('../helpers/EmailHandler');
 
 exports.createItem = async (req, res) => {
     const userIdFromToken = TokenHelper.getUserIdFromRequestToken(req);
@@ -169,6 +170,9 @@ exports.purchaseItem = async (req, res) => {
     }
     const itemId = req.params.id;
     const item = await ItemModel.getItemById(itemId);
+    if(!item){
+        return res.status(500).send("Server error");
+    }
     const sellerId = item.sellerId;
     const buyer = await UserModel.getUserById(userIdFromToken);
     const seller = await UserModel.getUserById(sellerId);
@@ -176,6 +180,8 @@ exports.purchaseItem = async (req, res) => {
         if (buyer.coins >= item.price) {
             result = await ItemModel.purchaseItem(item, buyer, seller);
             if (result) {
+                //Send email
+                EmailHandler.sendMail(item, buyer, seller);
                 res.status(200).send("Item purchased");
             }else {
                 res.status(500).send("Server error");
