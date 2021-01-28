@@ -102,7 +102,7 @@ const cropImageUrl = (item) => {
     let imageUrl = item.imageUrl;
     let startIndex = imageUrl.indexOf("upload");
     if(startIndex<0) return;
-    let croppedImageUrl = imageUrl.slice(0,startIndex+7) + "c_crop,h_455,w_729/" + imageUrl.slice(startIndex+7);
+    let croppedImageUrl = imagwUrl;
     if(!croppedImageUrl) return;
     item.imageUrl = croppedImageUrl;
 }
