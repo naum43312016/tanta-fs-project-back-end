@@ -3,7 +3,6 @@ const User = require('../queries/User');
 const ObjectID = require('mongodb').ObjectID;
 
 exports.createItem = async (item,userId) => {
-    cropImageUrl(item);
     const itemToInsert = getItemToInsert(item,userId);
     const insertionResult = await Item.add(itemToInsert);
     if(insertionResult){
@@ -96,15 +95,6 @@ addCreatedItemToUser = async (item,userId) => {
     }else{
         return false;
     }
-}
-
-const cropImageUrl = (item) => {
-    let imageUrl = item.imageUrl;
-    let startIndex = imageUrl.indexOf("upload");
-    if(startIndex<0) return;
-    let croppedImageUrl = imagwUrl;
-    if(!croppedImageUrl) return;
-    item.imageUrl = croppedImageUrl;
 }
 
 const getItemToInsert = (item,sellerId) => {
